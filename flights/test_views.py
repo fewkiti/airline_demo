@@ -28,7 +28,7 @@ class FlightViewTestCase(TestCase):
         """ context is correctly set """
 
         c = Client()
-        response = c.get(reverse('index'))
+        response = c.get(reverse('flights:index'))
         print(response.status_code)
         self.assertEqual(
             response.context['flights'].count(), 1)
