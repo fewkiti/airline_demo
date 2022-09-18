@@ -11,7 +11,7 @@ def index(request):
     })
 
 def flight(request, flight_id):
-    flight = Flight.objects.get_object_or_404(pk=flight_id)
+    flight = get_object_or_404(Flight, pk=flight_id)
     return render(request, "flights/flight.html", {
         "flight": flight,
         "passengers": flight.passengers.all(),
