@@ -48,34 +48,11 @@ class FlightViewTestCase(TestCase):
         response = c.get(reverse('flights:flight', args=(max_id+1,)))
         self.assertEqual(response.status_code, 404)
 
-    def test_guest_user_cannot_book_flight(self):
-        """ guest cannot book a flight """
-        user = User.objects.create(
-            username="user2", password="1234", email="user2@example.com")
-        f = Flight.objects.first()
-
-        c = Client()
-        response = c.get(reverse('flights:book', args=(f.id,)))
-        self.assertEqual(f.passengers.count(), 1)
-
-    def test_authenticated_user_can_book_flight(self):
-        """ authenticated user can book a flight """
-        user = User.objects.create(
-            username="user2", password="1234", email="user2@example.com")
-        f = Flight.objects.first()
-        f.capacity = 2
-        f.save()
-
-        c = Client()
-        c.force_login(user)
-        response = c.get(reverse('flights:book', args=(f.id,)))
-        self.assertEqual(f.passengers.count(), 2)
-
     def test_cannot_book_nonavailable_seat_flight(self):
         """ cannot book full capacity flight"""
 
-        user = User.objects.create(
-            username="user3", password="1234", email="user3@example.com")
+        passenger = Passenger.objects.create(
+            first="hemione", last="granger")
         f = Flight.objects.first()
         f.capacity = 1
         f.save()
