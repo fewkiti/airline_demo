@@ -21,7 +21,7 @@ class FlightViewTestCase(TestCase):
         """ index view's status code is ok """
 
         c = Client()
-        response = c.get('flights/')
+        response = c.get(reverse('index'))
         self.assertEqual(response.status_code, 200)
 
     def test_index_view_context(self):
@@ -29,7 +29,7 @@ class FlightViewTestCase(TestCase):
 
         c = Client()
         response = c.get(reverse('index'))
-        print(response.context)
+        print(response.status_code)
         self.assertEqual(
             response.context['flights'].count(), 1)
 
