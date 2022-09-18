@@ -29,7 +29,7 @@ class FlightViewTestCase(TestCase):
 
         c = Client()
         response = c.get(reverse('flights:index'))
-        print(response.status_code)
+        print(response.context['flights'])
         self.assertEqual(
             response.context['flights'].count(), 1)
 
