@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.db.models import Max
 from .models import Airport, Flight, Passenger
 
+
 class FlightViewTestCase(TestCase):
 
     def setUp(self):
@@ -58,6 +59,6 @@ class FlightViewTestCase(TestCase):
         f.save()
 
         c = Client()
-        c.force_login(user)
-        response = c.get(reverse('flights:book', args=(f.id,)))
+        c.post(reverse('flights:book', args=(f.id,)),
+               {'passenger': passenger.id})
         self.assertEqual(f.passengers.count(), 1)
