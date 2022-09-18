@@ -33,3 +33,4 @@ class FlightTestCase(TestCase):
         flight.passengers.add(passenger2)
 
         self.assertFalse(flight.is_seat_available())
+
