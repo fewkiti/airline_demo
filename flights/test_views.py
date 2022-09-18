@@ -1,24 +1,20 @@
 from django.test import TestCase, Client
 from django.urls import reverse
 from django.db.models import Max
-
-from .models import Airport, Flight
-from django.contrib.auth.models import User
-
+from .models import Airport, Flight, Passenger
 
 class FlightViewTestCase(TestCase):
 
     def setUp(self):
-
         # create airports
         airport1 = Airport.objects.create(code="AAA", city="City A")
         airport2 = Airport.objects.create(code="BBB", city="City B")
 
         flight = Flight.objects.create(
             origin=airport1, destination=airport2, duration=400)
-        user = User.objects.create(
-            username="user1", password="1234", email="user1@example.com")
-        flight.passengers.add(user)
+        passenger = Passenger.objects.create(
+            first="harry", last="potter")
+        flight.passengers.add(passenger)
 
     def test_index_view_status_code(self):
         """ index view's status code is ok """
@@ -33,7 +29,7 @@ class FlightViewTestCase(TestCase):
         c = Client()
         response = c.get(reverse('flights:index'))
         self.assertEqual(
-            response.context['flights'].count(), Flight.objects.count())
+            response.context['flights'].count(), 1)
 
     def test_valid_flight_page(self):
         """ valid flight page should return status code 200 """
