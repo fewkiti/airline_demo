@@ -21,14 +21,14 @@ class FlightViewTestCase(TestCase):
         """ index view's status code is ok """
 
         c = Client()
-        response = c.get(reverse('flights:index'))
+        response = c.get(reverse('index'))
         self.assertEqual(response.status_code, 200)
 
     def test_index_view_context(self):
         """ context is correctly set """
 
         c = Client()
-        response = c.get(reverse('flights:index'))
+        response = c.get(reverse('index'))
         self.assertEqual(
             response.context['flights'].count(), 1)
 
@@ -37,7 +37,7 @@ class FlightViewTestCase(TestCase):
 
         c = Client()
         f = Flight.objects.first()
-        response = c.get(reverse('flights:flight', args=(f.id,)))
+        response = c.get(reverse('flight', args=(f.id,)))
         self.assertEqual(response.status_code, 200)
 
     def test_invalid_flight_page(self):
@@ -46,7 +46,7 @@ class FlightViewTestCase(TestCase):
         max_id = Flight.objects.all().aggregate(Max("id"))['id__max']
 
         c = Client()
-        response = c.get(reverse('flights:flight', args=(max_id+1,)))
+        response = c.get(reverse('flight', args=(max_id+1,)))
         self.assertEqual(response.status_code, 404)
 
     def test_cannot_book_nonavailable_seat_flight(self):
