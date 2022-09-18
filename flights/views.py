@@ -25,7 +25,8 @@ def flight(request, flight_id):
 def book(request, flight_id):
     if request.method == "POST":
         flight = get_object_or_404(Flight, pk=flight_id)
-        passenger = Passenger.objects.get(pk=int(request.POST["passenger"]))
-        passenger.flights.add(flight)
-        # flight.passengers.add(passenger)
-        return HttpResponseRedirect(reverse("flights:flight", args=(flight.id,)))
+        if flight.is_seat_available():
+            passenger = Passenger.objects.get(pk=int(request.POST["passenger"]))
+            passenger.flights.add(flight)
+            # flight.passengers.add(passenger)
+    return HttpResponseRedirect(reverse("flights:flight", args=(flight.id,)))
