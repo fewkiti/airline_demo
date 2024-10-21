@@ -26,7 +26,7 @@ def book(request, flight_id):
     if request.method == "POST":
         flight = get_object_or_404(Flight, pk=flight_id)
         passenger = get_object_or_404(Passenger, pk=int(request.POST["passenger"]))
-        if passenger not in flight.passengers.all() and flight.is_seat_available():
+        if passenger not in flight.passengers.all():
             passenger = Passenger.objects.get(pk=int(request.POST["passenger"]))
             passenger.flights.add(flight)
             # flight.passengers.add(passenger)
